@@ -6,7 +6,7 @@
 # run programs on the build machine, so change the next line when
 # cross-compiling.
 HOSTCC=$(CC)
-
+FLAGS=-Wall -O3
 OBJS=DwStr.o \
 	DwMararc.o \
 	DwRadioGatun.o \
@@ -18,7 +18,8 @@ OBJS=DwStr.o \
 	DwCompress.o \
 	DwDnsStr.o \
 	DwRecurse.o \
-	DwDict.o
+	DwDict.o \
+	DwBlacklist.o
 
 all:	Deadwood version.h
 
@@ -35,56 +36,59 @@ clean:
 		./make.version.h ; if [ -e /dev/urandom ] ; \
 			then rm DwRandPrime.h  ; \
 			cc RandomPrime.c ; ./a.out > DwRandPrime.h ; rm a.out \
-		; fi 
+		; fi
 
-version.h:	
+version.h:
 	./make.version.h
-	
+
 DwStr.o:	DwStr.c DwStr.h
-	$(CC) $(FLAGS) -Wall -c -o DwStr.o DwStr.c
+	$(CC) $(FLAGS) -c -o DwStr.o DwStr.c
 
 DwCompress.o:	DwCompress.c DwStr.h
-	$(CC) $(FLAGS) -Wall -c -o DwCompress.o DwCompress.c
+	$(CC) $(FLAGS) -c -o DwCompress.o DwCompress.c
 
 DwDnsStr.o:	DwDnsStr.c DwStr.h DwRecurse.h
-	$(CC) $(FLAGS) -Wall -c -o DwDnsStr.o DwDnsStr.c
+	$(CC) $(FLAGS) -c -o DwDnsStr.o DwDnsStr.c
 
-DwMararc.o:	DwMararc.c DwMararc.h 
-	$(CC) $(FLAGS) -Wall -c -o DwMararc.o DwMararc.c
+DwMararc.o:	DwMararc.c DwMararc.h
+	$(CC) $(FLAGS) -c -o DwMararc.o DwMararc.c
 
 DwRadioGatun.o:	DwRadioGatun.c DwRadioGatun.h DwStr.h
-	$(CC) $(FLAGS) -Wall -c -o DwRadioGatun.o DwRadioGatun.c
+	$(CC) $(FLAGS) -c -o DwRadioGatun.o DwRadioGatun.c
 
 DwTcpSocket.o:	DwTcpSocket.c DwStr.h DwSocket.h
-	$(CC) $(FLAGS) -Wall -c -o DwTcpSocket.o DwTcpSocket.c
+	$(CC) $(FLAGS) -c -o DwTcpSocket.o DwTcpSocket.c
 
 DwUdpSocket.o:	DwUdpSocket.c DwStr.h DwSocket.h
-	$(CC) $(FLAGS) -Wall -c -o DwUdpSocket.o DwUdpSocket.c
+	$(CC) $(FLAGS) -c -o DwUdpSocket.o DwUdpSocket.c
 
 DwSocket.o:	DwSocket.c DwStr.h DwSocket.h
-	$(CC) $(FLAGS) -Wall -c -o DwSocket.o DwSocket.c
+	$(CC) $(FLAGS) -c -o DwSocket.o DwSocket.c
 
 DwSys.o:	DwSys.c DwStr.h
-	$(CC) $(FLAGS) -Wall -c -o DwSys.o DwSys.c
+	$(CC) $(FLAGS) -c -o DwSys.o DwSys.c
 
 RandomPrime:	RandomPrime.c
-	$(CC) -O3 -o RandomPrime RandomPrime.c
+	$(CC) $(FLAGS) -o RandomPrime RandomPrime.c
 
 DwRandPrime.h: RandomPrime
 	if [ -e /dev/urandom ] ; then ./RandomPrime > DwRandPrime.h ; fi
 
 DwHash.o:	DwHash.c DwStr.h DwRandPrime.h DwHash.h
-	$(CC) $(FLAGS) -Wall -c -o DwHash.o DwHash.c
+	$(CC) $(FLAGS) -c -o DwHash.o DwHash.c
 
 DwRecurse.o:	DwRecurse.c DwRecurse.h
-	$(CC) $(FLAGS) -Wall -c -o DwRecurse.o DwRecurse.c
+	$(CC) $(FLAGS) -c -o DwRecurse.o DwRecurse.c
 
 DwDict.o:	DwDict.c DwStr.h DwRandPrime.h DwDict.h
-	$(CC) $(FLAGS) -Wall -c -o DwDict.o DwDict.c
+	$(CC) $(FLAGS) -c -o DwDict.o DwDict.c
 
 Test:		Test.c DwStr.o DwStr.h DwStr_functions.h $(OBJS)
-	$(CC) $(FLAGS) -Wall -o Test Test.c $(OBJS)
+	$(CC) $(FLAGS) -o Test Test.c $(OBJS)
 
 Deadwood:	DwMain.c $(OBJS) DwStr_functions.h version.h
-	$(CC) $(FLAGS) -Wall -o Deadwood DwMain.c $(OBJS) -lrt
+	$(CC) $(FLAGS) -o Deadwood DwMain.c $(OBJS) -lrt
+
+DwBlacklist.o:	DwBlacklist.c DwBlacklist.h
+	$(CC) $(FLAGS) -c -o DwBlacklist.o DwBlacklist.c
 

@@ -30,6 +30,7 @@
 
 #include "DwSocket.h"
 #include "version.h"
+#include "DwBlacklist.h"
 
 /* Timestamp */
 int64_t the_time = 0;
@@ -52,6 +53,8 @@ dw_hash *cache = 0;
 /* The user and group ID Deadwood runs as */
 extern int32_t maradns_uid;
 extern int32_t maradns_gid;
+
+extern struct bl_entry *blacklist;
 
 #ifdef MINGW
 FILE *LOG = 0;
@@ -359,6 +362,7 @@ void dw_fatal(char *why) {
                 fprintf(LOG,"Fatal: Unknown fatal error\n");
 #endif /* MINGW */
         }
+	process_signal(1);
         dw_log_close();
         exit(1);
 }
@@ -470,6 +474,12 @@ void process_signal(int number) {
         got_signal = 0;
 #endif /* MINGW */
 
+	if (number != 3) {
+		/* free blacklist */
+		bl_clear(&blacklist);
+	} else {
+		read_blacklist();
+	}
         /* Write the cache contents to disk */
         filename = key_s[DWM_S_cache_file];
         if(cache != 0 && filename != 0) {

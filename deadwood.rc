@@ -58,3 +58,4 @@ maximum_cache_elements = 60000
 # following line:
 #filter_rfc1918 = 0
 verbose_level = 100
+name_whitelist = "deadwood_whitelist"

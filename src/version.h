@@ -1,1 +1,1 @@
-#define VERSION "github"
+#define VERSION "git-1bbd55bff1981d514722b46e57a4a603410e396f"

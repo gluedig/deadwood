@@ -21,6 +21,7 @@
 #include "DwCompress.h"
 #include "DwDnsStr.h"
 #include "DwRecurse.h"
+#include "DwBlacklist.h"
 
 /* Mararc parameters that are set in DwMararc.c */
 extern dw_str *key_s[];
@@ -65,6 +66,9 @@ extern dwd_dict *blacklist_dict;
 /* Needed for the Windows way of making a socket non-blocking */
 extern u_long dont_block;
 #endif /*MINGW*/
+
+/* Blacklist */
+extern struct bl_entry *blacklist;
 
 /* Initialize the inflight hash */
 void init_inflight_hash() {
@@ -664,9 +668,8 @@ char* get_name(dw_str *query) {
 }
 
 int is_whitelisted(char* name) {
-	if ( strstr(name, "onet.pl.") != 0) {
+	if ( is_on_bl(blacklist, name))
 		return 1;
-	}
 	return 0;
 }
 

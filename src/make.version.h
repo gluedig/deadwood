@@ -3,7 +3,7 @@
 # Make the version.h file based on the directory name for Deadwood
 
 # Now that this is in github, pull the version number from the git log
-if git log -1 > git.commit ; then
+if git log -1 --no-decorate > git.commit ; then
 	head -1 git.commit | awk '
 		{print "#define VERSION \"git-"$NF"\""}' > version.h
 	exit 0

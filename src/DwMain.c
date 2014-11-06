@@ -22,8 +22,11 @@
 #include "DwTcpSocket.h"
 #include "DwSys.h"
 #include "version.h"
+#include "DwBlacklist.h"
 
 extern int32_t key_n[];
+
+struct bl_entry *blacklist = 0;
 
 #ifdef MINGW
 void windows_socket_start() {
@@ -107,6 +110,7 @@ int dw_udp_main(int argc, char **argv) {
 #endif /* MINGW */
         init_rng();
         sandbox();
+	read_blacklist();
         init_cache();
         process_root_upstream();
         malloc_tcp_pend();
