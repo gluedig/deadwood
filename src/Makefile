@@ -6,7 +6,7 @@
 # run programs on the build machine, so change the next line when
 # cross-compiling.
 HOSTCC=$(CC)
-FLAGS=-Wall -O3 -fhonour-flags
+FLAGS=-Wall -O3 -fhonour-cflags
 OBJS=DwStr.o \
 	DwMararc.o \
 	DwRadioGatun.o \
