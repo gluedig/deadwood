@@ -3,7 +3,7 @@
 # description: Startup/shutdown script for deadwood 
 #
 WD_DIR=/usr/bin
-CHROOT_DIR=/var/tmp/deadwood
+CHROOT_DIR=/tmp/deadwood
 OPTIONS=""
 START=75
 STOP=55
@@ -16,7 +16,7 @@ start() {
 
 stop() {
 	echo "Stopping deadwood... "
-        if [ -x $CHROOT_DIR/deadwood.pid ]; then
+        if [ -a $CHROOT_DIR/deadwood.pid ]; then
                 kill -s SIGTERM `cat $CHROOT_DIR/deadwood.pid`
                 rm $CHROOT_DIR/deadwood.pid
         fi
@@ -24,7 +24,7 @@ stop() {
 
 reload() {
 	echo "Reloading deadwood whitelist... "
-        if [ -x $CHROOT_DIR/deadwood.pid ]; then
+        if [ -a $CHROOT_DIR/deadwood.pid ]; then
                 kill -s SIGUSR1 `cat $CHROOT_DIR/deadwood.pid`
         fi
 }
