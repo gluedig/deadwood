@@ -2,8 +2,7 @@
 # Note that comments are started by the hash symbol
 
 bind_address="127.0.0.1" # IP we bind to
-
-dns_port = 5353
+dns_port=5354
 
 # The following line is disabled by being commented out
 #bind_address="::1" # We have optional IPv6 support
@@ -21,6 +20,7 @@ chroot_dir = "/var/tmp/deadwood"
 upstream_servers = {}
 upstream_servers["."] = "127.0.0.1"
 #upstream_servers["."]="8.8.8.8, 8.8.4.4" 
+#upstream_servers["."]="192.168.1.1"
 
 # Who is allowed to use the cache.  This line
 # allows anyone with "127.0" as the first two
@@ -56,6 +56,6 @@ maximum_cache_elements = 60000
 # 169.254.x.x, 224.x.x.x, or 0.0.x.x range.  If using Deadwood 
 # to resolve names on an internal network, uncomment the 
 # following line:
-#filter_rfc1918 = 0
-verbose_level = 100
-name_whitelist = "deadwood_whitelist"
+filter_rfc1918 = 0
+verbose_level = 2
+name_whitelist = "deadwood.whitelist"

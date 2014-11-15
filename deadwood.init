@@ -1,0 +1,31 @@
+#!/bin/sh /etc/rc.common
+#
+# description: Startup/shutdown script for deadwood 
+#
+WD_DIR=/usr/bin
+CHROOT_DIR=/var/tmp/deadwood
+OPTIONS=""
+START=75
+STOP=55
+
+start() {
+   	echo "Starting deadwood... "
+        $WD_DIR/Deadwood -f /sensus/deadwood.rc
+        echo $! > $CHROOT_DIR/deadwood.pid
+}
+
+stop() {
+	echo "Stopping deadwood... "
+        if [ -x $CHROOT_DIR/deadwood.pid ]; then
+                kill -s SIGTERM `cat $CHROOT_DIR/deadwood.pid`
+                rm $CHROOT_DIR/deadwood.pid
+        fi
+}
+
+reload() {
+	echo "Reloading deadwood whitelist... "
+        if [ -x $CHROOT_DIR/deadwood.pid ]; then
+                kill -s SIGUSR1 `cat $CHROOT_DIR/deadwood.pid`
+        fi
+}
+
