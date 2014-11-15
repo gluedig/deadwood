@@ -5,8 +5,8 @@
 WD_DIR=/usr/bin
 CHROOT_DIR=/tmp/deadwood
 OPTIONS=""
-START=75
-STOP=55
+START=98
+STOP=15
 
 start() {
    	echo "Starting deadwood... "
