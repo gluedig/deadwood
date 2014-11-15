@@ -10,7 +10,7 @@ STOP=55
 
 start() {
    	echo "Starting deadwood... "
-        $WD_DIR/Deadwood -f /sensus/deadwood.rc
+        $WD_DIR/Deadwood -f /sensus/deadwood.rc&
         echo $! > $CHROOT_DIR/deadwood.pid
 }
 
