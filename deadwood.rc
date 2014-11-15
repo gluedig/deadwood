@@ -8,7 +8,7 @@ dns_port=5354
 #bind_address="::1" # We have optional IPv6 support
 
 # Directory we run program from (not used in Win32)
-chroot_dir = "/var/tmp/deadwood" 
+chroot_dir = "/tmp/deadwood" 
 
 # The following upstream DNS servers are Google's 
 # (as of December 2009) public DNS servers.  For 
