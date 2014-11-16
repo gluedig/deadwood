@@ -8,6 +8,8 @@ PID_FILE=$CHROOT_DIR/deadwood.pid
 OPTIONS=""
 START=98
 STOP=15
+EXTRA_COMMANDS="status"
+EXTRA_HELP="            status  check status"
 
 start() {
    	if [[ -f $PID_FILE ]]; then
@@ -42,3 +44,20 @@ reload() {
        	fi
 }
 
+status() {                                                              
+        if [[ -f $PID_FILE ]]; then                                     
+                PID=`cat $PID_FILE`                                     
+                echo $PID;                                              
+                if [[ -d /proc/$PID ]];                                 
+                        echo "Deadwood running with PID: $PID";         
+                        exit 0;                                         
+                else                                                    
+                        echo "Deadwood not running, expected PID: $PID";
+                        exit 1;                 
+                fi                                      
+        else                                    
+                echo "$PID_FILE does not exist";
+                exit 1;
+        fi
+ 
+}       
