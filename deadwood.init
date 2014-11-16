@@ -48,16 +48,15 @@ status() {
         if [[ -f $PID_FILE ]]; then                                     
                 PID=`cat $PID_FILE`                                     
                 echo $PID;                                              
-                if [[ -d /proc/$PID ]];                                 
-                        echo "Deadwood running with PID: $PID";         
-                        exit 0;                                         
-                else                                                    
+                if [[ -d /proc/$PID ]]; then
+                        echo "Deadwood running with PID: $PID";
+                        exit 0;
+                else
                         echo "Deadwood not running, expected PID: $PID";
-                        exit 1;                 
-                fi                                      
-        else                                    
+                        exit 1;
+                fi
+        else
                 echo "$PID_FILE does not exist";
                 exit 1;
         fi
- 
 }       
