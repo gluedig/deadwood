@@ -19,7 +19,6 @@ start() {
 	   	echo "Starting deadwood... ";
         	$WD_DIR/Deadwood -f /sensus/deadwood.rc&
         	echo $! > $PID_FILE;
-        	cat $PID_FILE;
         fi
 }
 
@@ -47,7 +46,6 @@ reload() {
 status() {                                                              
         if [[ -f $PID_FILE ]]; then                                     
                 PID=`cat $PID_FILE`                                     
-                echo $PID;                                              
                 if [[ -d /proc/$PID ]]; then
                         echo "Deadwood running with PID: $PID";
                         exit 0;
