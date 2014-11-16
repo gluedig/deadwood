@@ -4,28 +4,41 @@
 #
 WD_DIR=/usr/bin
 CHROOT_DIR=/tmp/deadwood
+PID_FILE=$CHROOT_DIR/deadwood.pid
 OPTIONS=""
 START=98
 STOP=15
 
 start() {
-   	echo "Starting deadwood... "
-        $WD_DIR/Deadwood -f /sensus/deadwood.rc&
-        echo $! > $CHROOT_DIR/deadwood.pid
+   	if [[ -f $PID_FILE ]]; then
+   		echo "$PID_FILE exists, deadwood running?";
+   		exit 1;
+   	else
+	   	echo "Starting deadwood... ";
+        	$WD_DIR/Deadwood -f /sensus/deadwood.rc&
+        	echo $! > $PID_FILE;
+        	cat $PID_FILE;
+        fi
 }
 
 stop() {
-	echo "Stopping deadwood... "
-        if [ -a $CHROOT_DIR/deadwood.pid ]; then
-                kill -s SIGTERM `cat $CHROOT_DIR/deadwood.pid`
-                rm $CHROOT_DIR/deadwood.pid
+        if [[ -f $PID_FILE ]]; then
+		echo "Stopping deadwood... ";
+                kill -s SIGTERM `cat $PID_FILE`;
+                rm $CHROOT_DIR/deadwood.pid;
+        else
+        	echo "$PID_FILE does not exits, deadwood not running?";
+        	exit 1;
         fi
 }
 
 reload() {
-	echo "Reloading deadwood whitelist... "
-        if [ -a $CHROOT_DIR/deadwood.pid ]; then
-                kill -s SIGUSR1 `cat $CHROOT_DIR/deadwood.pid`
-        fi
+        if [[ -f $PID_FILE ]]; then
+		echo "Reloading deadwood whitelist... ";
+                kill -s SIGUSR1 `cat $PID_FILE`;
+       	else
+        	echo "$PID_FILE does not exits, deadwood not running?";
+        	exit 1;
+       	fi
 }
 
