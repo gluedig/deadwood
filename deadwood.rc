@@ -1,7 +1,7 @@
 # This is an example deadwood rc file 
 # Note that comments are started by the hash symbol
 
-bind_address="127.0.0.1" # IP we bind to
+bind_address="0.0.0.0" # IP we bind to
 dns_port=5354
 
 # The following line is disabled by being commented out
@@ -25,7 +25,7 @@ upstream_servers["."] = "127.0.0.1"
 # Who is allowed to use the cache.  This line
 # allows anyone with "127.0" as the first two
 # digits of their IP to use Deadwood
-recursive_acl = "127.0.0.1/16" 
+recursive_acl = "0.0.0.0/0" 
 
 # Maximum number of pending requests
 maxprocs = 8 
