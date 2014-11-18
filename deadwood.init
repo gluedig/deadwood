@@ -12,6 +12,7 @@ EXTRA_COMMANDS="status"
 EXTRA_HELP="            status  check status"
 
 start() {
+	mkdir $CHROOT_DIR;
    	if [[ -f $PID_FILE ]]; then
    		echo "$PID_FILE exists, deadwood running?";
    		exit 1;
@@ -43,9 +44,9 @@ reload() {
        	fi
 }
 
-status() {                                                              
-        if [[ -f $PID_FILE ]]; then                                     
-                PID=`cat $PID_FILE`                                     
+status() {
+        if [[ -f $PID_FILE ]]; then
+                PID=`cat $PID_FILE`
                 if [[ -d /proc/$PID ]]; then
                         echo "Deadwood running with PID: $PID";
                         exit 0;
@@ -57,4 +58,4 @@ status() {
                 echo "$PID_FILE does not exist";
                 exit 1;
         fi
-}       
+}
