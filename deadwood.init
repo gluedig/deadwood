@@ -44,6 +44,13 @@ reload() {
        	fi
 }
 
+restart() {
+        echo "Restarting deadwood... "
+        stop;
+        sleep 5;
+        start;
+}
+
 status() {
         if [[ -f $PID_FILE ]]; then
                 PID=`cat $PID_FILE`
