@@ -13,6 +13,8 @@ EXTRA_HELP="            status  check status"
 
 start() {
 	mkdir $CHROOT_DIR;
+	cp -f /sensus/deadwood.whitelist $CHROOT_DIR
+	chmod 0666 $CHROOT_DIR/deadwood.whitelist
    	if [[ -f $PID_FILE ]]; then
    		echo "$PID_FILE exists, deadwood running?";
    		exit 1;
