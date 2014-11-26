@@ -7,11 +7,10 @@
 #include <assert.h>
 #include <string.h>
 
-
-typedef struct bl_entry{
+struct bl_entry{
 	char *str;
-	struct bl_entry *next; };
-
+	struct bl_entry *next;
+};
 
 void read_blacklist(void);
 void bl_clear(struct bl_entry **list);

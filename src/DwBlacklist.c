@@ -13,10 +13,10 @@ void read_blacklist() {
 		FILE *whitelist;
 		char line[512];
 
-		printf("Whitelist file: %s\n", filename);
+		dw_log_3strings("Whitelist file: ", filename, "", 2);
 	        whitelist = fopen(filename,"rb");
         	if(whitelist == NULL) {
-			printf("Failed to open whitelist file\n");
+			dw_log_string("Failed to open whitelist file", 0);
                 	goto end; /* File open error */
 	        }
 		if (blacklist)

@@ -33,6 +33,7 @@
 #define DWM_S_cache_file 5
 #define DWM_S_ip_blacklist 6
 #define DWM_S_name_whitelist 7
+#define DWM_S_blacklisted_answer_ip 8
 
 /* mararc dictionary parameters */
 #define DWM_D_upstream_servers 0
@@ -71,7 +72,7 @@
 #define DWM_N_max_ttl 29
 
 /* Number of string parameters in the mararc file */
-#define KEY_S_COUNT 8
+#define KEY_S_COUNT 9
 /* Number of dictionary parameters in the mararc file */
 #define KEY_D_COUNT 2
 /* Number of numeric parameters in the mararc file */
@@ -98,6 +99,7 @@ char *key_s_names[KEY_S_COUNT + 1] = {
         "ip_blacklist", /* If an answer has any of these IPs, make it a
                          * "not there" answer */
 	"name_whitelist", /* File with whitelisted names */
+	"blacklisted_answer_ip", /* IP to use for answers to not whitelisted domains */
         0 };
 
 char *key_d_names[KEY_D_COUNT + 1] = {

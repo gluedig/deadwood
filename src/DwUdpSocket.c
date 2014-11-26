@@ -70,6 +70,9 @@ extern u_long dont_block;
 /* Blacklist */
 extern struct bl_entry *blacklist;
 
+/* IP for blacklisted answers */
+ip_addr_T blacklisted_answer_ip = {0, {0,0}, 0, 0};
+
 /* Initialize the inflight hash */
 void init_inflight_hash() {
         inflight = 0;
@@ -86,6 +89,21 @@ void init_inflight_hash() {
 int bind_all_udp() {
         int a = 0;
         int count = 0;
+        if( inet_pton(AF_INET, "10.10.10.10", (uint8_t *)(blacklisted_answer_ip.ip)) > 0 ) {
+		blacklisted_answer_ip.len = 4;
+	}
+
+	if(key_s[DWM_S_blacklisted_answer_ip] != 0) {
+		char *ip;
+                ip = dw_to_cstr(key_s[DWM_S_blacklisted_answer_ip]);
+		if( inet_pton(AF_INET, ip, (uint8_t *)(blacklisted_answer_ip.ip)) > 0 ) {
+			blacklisted_answer_ip.len = 4;
+		} else {
+			dw_log_3strings("ERROR parsing IP: ", ip, "", 0);
+		}
+	}
+	dw_log_ip("IP for blacklisted domains:", &blacklisted_answer_ip, 2);
+
         for(a = 0; a < DW_MAXIPS; a++) {
                 if(bind_address[a].len != 0) {
                         b_local[a] = do_bind(&bind_address[a],SOCK_DGRAM);
@@ -1084,7 +1102,7 @@ unsigned char *make_synth_fixed_answer(unsigned char *a, int *count) {
         "\0\x01" /* Class */
         "\0\0\0\0" /* TTL (don't cache) */
         "\0\x4" /* RDLENGTH */
-        "\x36\xd9\xe0\x26"; /* IP */
+        "\x0a\x0a\x0a\x0a"; /* IP */
         unsigned char *answer = 0;
         int counter = 0;
 
@@ -1117,6 +1135,14 @@ unsigned char *make_synth_fixed_answer(unsigned char *a, int *count) {
         for(;counter < *count; counter++) {
                 answer[counter] = a[counter];
         }
+
+	/* use configured address for blacklisted domains */
+	if (blacklisted_answer_ip.len == 4) {
+		not_there[12] = blacklisted_answer_ip.ip[0];
+		not_there[13] = blacklisted_answer_ip.ip[1];
+		not_there[14] = blacklisted_answer_ip.ip[2];
+		not_there[15] = blacklisted_answer_ip.ip[3];
+	}
 
         /* Add the SOA reply to the answer */
         for(counter = 0; counter < 40; counter++) {
