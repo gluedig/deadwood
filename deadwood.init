@@ -12,7 +12,7 @@ EXTRA_COMMANDS="status"
 EXTRA_HELP="            status  check status"
 
 start() {
-	mkdir $CHROOT_DIR;
+	mkdir -p $CHROOT_DIR;
 	cp -f /sensus/deadwood.whitelist $CHROOT_DIR
 	chmod 0666 $CHROOT_DIR/deadwood.whitelist
    	if [[ -f $PID_FILE ]]; then
@@ -20,8 +20,7 @@ start() {
    		exit 1;
    	else
 	   	echo "Starting deadwood... ";
-		$WD_DIR/Deadwood -f /sensus/deadwood.rc | logger -t deadwood &
-        	echo $! > $PID_FILE;
+		($WD_DIR/Deadwood -f /sensus/deadwood.rc & echo $! > $PID_FILE) | logger -t deadwood &
         fi
 }
 
