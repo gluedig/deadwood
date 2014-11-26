@@ -20,7 +20,7 @@ start() {
    		exit 1;
    	else
 	   	echo "Starting deadwood... ";
-        	$WD_DIR/Deadwood -f /sensus/deadwood.rc&
+		$WD_DIR/Deadwood -f /sensus/deadwood.rc | logger -t deadwood &
         	echo $! > $PID_FILE;
         fi
 }
